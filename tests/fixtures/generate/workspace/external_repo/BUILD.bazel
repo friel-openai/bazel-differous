@@ -1,0 +1,5 @@
+sh_library(
+    name = "ext_lib",
+    srcs = ["ext.sh"],
+    data = ["ext_data.txt"],
+)

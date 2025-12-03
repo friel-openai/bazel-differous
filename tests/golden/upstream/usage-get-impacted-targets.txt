@@ -1,0 +1,27 @@
+[31m[1mMissing required options: '--startingHashes=<startingHashesJSONPath>', '--finalHashes=<finalHashesJSONPath>'[21m[39m[0m
+Usage: [1mbazel-diff get-impacted-targets[21m[0m [[33m-v[39m[0m] [[33m-d[39m[0m=[3m<depsMappingJSONPath>[23m[0m]
+                                       [33m-fh[39m[0m=[3m<finalHashesJSONPath>[23m[0m
+                                       [[33m-o[39m[0m=[3m<outputPath>[23m[0m]
+                                       [33m-sh[39m[0m=[3m<startingHashesJSONPath>[23m[0m
+                                       [[33m-tt[39m[0m=[3m<targetType>[23m[0m[,[3m<targetType>[23m[0m...]]...
+Command-line utility to analyze the state of the bazel build graph
+  [33m-d[39m[0m, [33m--depEdgesF[39m[0m[33mile[39m[0m=[3m<depsMappingJSONPath>[23m[0m
+                  Path to the file where dependency edges are. If specified,
+                    build graph distance metrics will be computed from the
+                    given hash data.
+[33m [39m[0m     [33m-fh, --fina[39m[0m[33mlHashes[39m[0m=[3m<finalHashesJSONPath>[23m[0m
+                  The path to the JSON file of target hashes for the final
+                    revision. Run 'generate-hashes' to get this value.
+  [33m-o[39m[0m, [33m--output[39m[0m=[3m<o[23m[0m[3mutputPath>[23m[0m
+                  Filepath to write the impacted Bazel targets to. If using
+                    depEdgesFile: formatted in json, otherwise: newline
+                    separated. If not specified, the output will be written to
+                    STDOUT.
+[33m [39m[0m     [33m-sh, --star[39m[0m[33mtingHashes[39m[0m=[3m<startingHashesJSONPath>[23m[0m
+                  The path to the JSON file of target hashes for the initial
+                    revision. Run 'generate-hashes' to get this value.
+      [33m-tt, --targ[39m[0m[33metType[39m[0m=[3m<targetType>[23m[0m[,[3m<targetType>[23m[0m...]
+                  The types of targets to filter. Use comma (,) to separate
+                    multiple values, e.g. '--targetType=SourceFile,Rule,
+                    GeneratedFile'.
+  [33m-v[39m[0m, [33m--verbose[39m[0m   Display query string, missing files and elapsed time

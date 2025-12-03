@@ -1,0 +1,15 @@
+[package]
+name = "bazel-differrous-proto"
+version = "0.1.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[dependencies]
+bytes = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+
+[build-dependencies]
+prost-build = "0.13.1"
+protoc-bin-vendored = "3"

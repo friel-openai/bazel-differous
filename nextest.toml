@@ -1,0 +1,9 @@
+[profile.default]
+test-timeout = "120s"
+slow-timeout = { period = "30s", terminate-after = 3 }
+status-level = "pass"
+
+[profile.ci]
+test-timeout = "180s"
+slow-timeout = { period = "60s", terminate-after = 2 }
+status-level = "fail"

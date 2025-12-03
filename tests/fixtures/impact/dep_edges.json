@@ -1,0 +1,9 @@
+{
+  "//app:bin": [
+    "//pkg:lib"
+  ],
+  "//app:unused": [],
+  "//pkg:data": [],
+  "//pkg:helper": [],
+  "//pkg:lib": []
+}

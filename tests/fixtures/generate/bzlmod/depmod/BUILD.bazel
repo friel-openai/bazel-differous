@@ -1,0 +1,5 @@
+sh_library(
+    name = "dep_lib",
+    srcs = ["dep.sh"],
+    visibility = ["//visibility:public"],
+)

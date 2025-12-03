@@ -1,0 +1,115 @@
+[31m[1mMissing required option: '--workspacePath=<workspacePath>'[21m[39m[0m
+Usage: [1mbazel-diff generate-hashes[21m[0m [[33m-hkvV[39m[0m] [[33m--[no-]excludeExternalTargets[39m[0m] [[33m--[39m[0m
+                                [33m  [no-]includeTargetType[39m[0m] [[33m--[no-]useCquery[39m[0m]
+                                  [[33m-b[39m[0m=[3m<bazelPath>[23m[0m]
+                                  [[33m--contentHashPath[39m[0m=[3m<contentHashPath>[23m[0m]
+                                  [[33m-d[39m[0m=[3m<depsMappingJSONPath>[23m[0m]
+                                  [[33m--fineGrainedHashExternalReposFile[39m[0m=[3m<fineGrain[23m[0m
+                        [3m          edHashExternalReposFile>[23m[0m]
+                                  [[33m-m[39m[0m=[3m<modifiedFilepaths>[23m[0m] [[33m-s[39m[0m=[3m<seedFilepaths>[23m[0m]
+                                  [33m-w[39m[0m=[3m<workspacePath>[23m[0m
+                                  [[33m-co[39m[0m=[3m<bazelCommandOptions>[23m[0m]...
+                                  [[33m--cqueryCommandOptions[39m[0m=[3m<cqueryCommandOptions>[23m[0m
+                                  ]...
+                                  [[33m--fineGrainedHashExternalRepos[39m[0m=[3m<fineGrainedHa[23m[0m
+                    [3m              shExternalRepos>[23m[0m]...
+                                  [[33m--ignoredRuleHashingAttributes[39m[0m=[3m<ignoredRuleHa[23m[0m
+                    [3m              shingAttributes>[23m[0m]...
+                                  [[33m-so[39m[0m=[3m<bazelStartupOptions>[23m[0m]...
+                                  [[33m-tt[39m[0m=[3m<targetType>[23m[0m[,[3m<targetType>[23m[0m...]]...
+                                  [33m<outputPath>[39m[0m
+Writes to a file the SHA256 hashes for each Bazel Target in the provided
+workspace.
+[33m [39m[0m     [33m<outputPath>[39m[0m        The filepath to write the resulting JSON of
+                            dictionary target => SHA-256 values. If not
+                            specified, the JSON will be written to STDOUT.
+  [33m-b[39m[0m, [33m--bazelPath[39m[0m=[3m<bazelP[23m[0m[3math>[23m[0m
+                          Path to Bazel binary. If not specified, the Bazel
+                            binary available in PATH will be used.
+      [33m-co, --bazelCommand[39m[0m[33mOptions[39m[0m=[3m<bazelCommandOptions>[23m[0m
+                          Additional space separated Bazel command options used
+                            when invoking `bazel query`
+      [33m--contentHashPath[39m[0m=[3m<[23m[0m[3mcontentHashPath>[23m[0m
+                          Path to content hash json file. It's a map which maps
+                            relative file path from workspace path to its
+                            content hash. Files in this map will skip content
+                            hashing and use provided value
+      [33m--cqueryCommandOpti[39m[0m[33mons[39m[0m=[3m<cqueryCommandOptions>[23m[0m
+                          Additional space separated Bazel command options used
+                            when invoking `bazel cquery`. This flag is has no
+                            effect if `--useCquery`is false.
+  [33m-d[39m[0m, [33m--depEdgesFile[39m[0m=[3m<dep[23m[0m[3msMappingJSONPath>[23m[0m
+                          Path to the file where dependency edges are written
+                            to. If not specified, the dependency edges will not
+                            be written to a file. Needed for computing build
+                            graph distance metrics. See bazel-diff docs for
+                            more details about build graph distance metrics.
+      [33m--[no-]excludeExter[39m[0m[33mnalTargets[39m[0m
+                          If true, exclude external targets. This must be
+                            switched on when using `--noenable_workspace` Bazel
+                            command line option. Defaults to `false`.
+      [33m--fineGrainedHashEx[39m[0m[33mternalRepos[39m[0m=[3m<fineGrainedHashExternalRepos>[23m[0m
+                          Comma separate list of external repos in which
+                            fine-grained hashes are computed for the targets.
+                            By default, external repos are treated as an opaque
+                            blob. If an external repo is specified here,
+                            bazel-diff instead computes the hash for individual
+                            targets. For example, one wants to specify `maven`
+                            here if they user rules_jvm_external so that
+                            individual third party dependency change won't
+                            invalidate all targets in the mono repo.
+      [33m--fineGrainedHashEx[39m[0m[33mternalReposFile[39m[0m=[3m<fineGrainedHashExternalReposFile>[23m[0m
+                          A text file containing a newline separated list of
+                            external repos. Similar to
+                            --fineGrainedHashExternalRepos but helps you avoid
+                            exceeding max arg length. Mutually exclusive with
+                            --fineGrainedHashExternalRepos.
+  [33m-h[39m[0m, [33m--help[39m[0m              Show this help message and exit.
+      [33m--ignoredRuleHashin[39m[0m[33mgAttributes[39m[0m=[3m<ignoredRuleHashingAttributes>[23m[0m
+                          Attributes that should be ignored when hashing rule
+                            targets.
+      [33m--[no-]includeTarge[39m[0m[33mtType[39m[0m
+                          Whether include target type in the generated JSON or
+                            not.
+                          If false, the generate JSON schema is: {"<target>":
+                            "<sha256>"}
+                          If true, the generate JSON schema is: {"<target>":
+                            "<type>#<sha256>" }
+  [33m-k[39m[0m, [33m--[no-]keep_going[39m[0m   This flag controls if `bazel query` will be executed
+                            with the `--keep_going` flag or not. Disabling this
+                            flag allows you to catch configuration issues in
+                            your Bazel graph, but may not work for some Bazel
+                            setups. Defaults to `true`
+  [33m-m[39m[0m, [33m--modified-filepath[39m[0m[33ms[39m[0m=[3m<modifiedFilepaths>[23m[0m
+                          Experimental: A text file containing a newline
+                            separated list of filepaths (relative to the
+                            workspace) these filepaths should represent the
+                            modified files between the specified revisions and
+                            will be used to scope what files are hashed during
+                            hash generation.
+  [33m-s[39m[0m, [33m--seed-filepaths[39m[0m=[3m<s[23m[0m[3meedFilepaths>[23m[0m
+                          A text file containing a newline separated list of
+                            filepaths. Each file in this list will be read and
+                            its content will be used as a SHA256 seed when
+                            determining affected targets in the build graph.
+                            Invalidating any of these files will effectively
+                            mark all targets as affected.
+      [33m-so, --bazelStartup[39m[0m[33mOptions[39m[0m=[3m<bazelStartupOptions>[23m[0m
+                          Additional space separated Bazel client startup
+                            options used when invoking Bazel
+      [33m-tt, --targetType[39m[0m=[3m<[23m[0m[3mtargetType>[23m[0m[,[3m<targetType>[23m[0m...]
+                          The types of targets to filter. Use comma (,) to
+                            separate multiple values, e.g.
+                            '--targetType=SourceFile,Rule,GeneratedFile'.
+      [33m--[no-]useCquery[39m[0m    If true, use cquery instead of query when generating
+                            dependency graphs. Using cquery would yield more
+                            accurate build graph at the cost of slower query
+                            execution. When this is set, one usually also wants
+                            to set `--cqueryCommandOptions` to specify a
+                            targeting platform. Note that this flag only works
+                            with Bazel 6.2.0 or above because lower versions
+                            does not support `--query_file` flag.
+  [33m-v[39m[0m, [33m--verbose[39m[0m           Display query string, missing files and elapsed time
+  [33m-V[39m[0m, [33m--version[39m[0m           Print version information and exit.
+[33m [39m[0m [33m-w[39m[0m, [33m--workspacePath[39m[0m=[3m<wo[23m[0m[3mrkspacePath>[23m[0m
+                          Path to Bazel workspace directory.

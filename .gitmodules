@@ -1,0 +1,3 @@
+[submodule "vendor/bazel-diff"]
+	path = vendor/bazel-diff
+	url = https://github.com/Tinder/bazel-diff.git

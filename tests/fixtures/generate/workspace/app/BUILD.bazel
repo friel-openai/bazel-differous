@@ -1,0 +1,33 @@
+sh_library(
+    name = "lib",
+    srcs = [
+        "lib.sh",
+    ],
+    data = ["data.txt"],
+)
+
+genrule(
+    name = "gen_data",
+    srcs = ["data.txt"],
+    outs = ["gen.txt"],
+    cmd = "cat $(SRCS) > $@",
+)
+
+sh_binary(
+    name = "app",
+    srcs = ["main.sh"],
+    deps = [
+        ":lib",
+        ":gen_data",
+        "@extlib//:ext_lib",
+    ],
+)
+
+filegroup(
+    name = "all_files",
+    srcs = [
+        "main.sh",
+        "lib.sh",
+        "data.txt",
+    ],
+)

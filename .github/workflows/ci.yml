@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Update submodules
+        run: git submodule update --init --recursive
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
+      - name: Install bazelisk
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/bin"
+          arch=$(uname -m)
+          if [ "$arch" = "x86_64" ]; then
+            url="https://github.com/bazelbuild/bazelisk/releases/download/v1.27.0/bazelisk-linux-amd64"
+          elif [ "$arch" = "aarch64" ] || [ "$arch" = "arm64" ]; then
+            url="https://github.com/bazelbuild/bazelisk/releases/download/v1.27.0/bazelisk-linux-arm64"
+          else
+            echo "unsupported arch $arch" >&2
+            exit 1
+          fi
+          curl -sSL "$url" -o "$HOME/.local/bin/bazelisk"
+          chmod +x "$HOME/.local/bin/bazelisk"
+          ln -sf "$HOME/.local/bin/bazelisk" "$HOME/.local/bin/bazel"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Install just
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - name: fmt
+        run: cargo fmt --all -- --check
+      - name: clippy
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - name: tests (nextest)
+        run: cargo nextest run --workspace --all-targets --all-features
+      - name: workspace check
+        run: cargo check --workspace --all-targets
+      - name: build upstream bazel-diff
+        if: ${{ !env.ACT }}
+        env:
+          RULES_PYTHON_ALLOW_BUILD_AS_ROOT: "1"
+        run: just build-upstream-bazel-diff
+      - name: parity tests
+        run: cargo test -p bazel-differrous-integration-tests --tests

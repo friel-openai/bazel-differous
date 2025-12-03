@@ -1,0 +1,6 @@
+workspace(name = "bazel_differrous_fixture")
+
+local_repository(
+    name = "extlib",
+    path = "external_repo",
+)

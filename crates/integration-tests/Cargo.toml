@@ -1,0 +1,14 @@
+[package]
+name = "bazel-differrous-integration-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = { workspace = true }
+once_cell = { workspace = true }
+
+[dev-dependencies]
+assert_cmd = { workspace = true }
+tempfile = { workspace = true }
+serde_json = { workspace = true }

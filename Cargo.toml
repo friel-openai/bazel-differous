@@ -1,0 +1,32 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/cli",
+    "crates/proto",
+    "crates/integration-tests",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.75"
+
+[workspace.dependencies]
+anyhow = "1.0.90"
+bytes = "1.7.1"
+clap = { version = "4.5.7", features = ["derive"] }
+prost = "0.13.1"
+prost-types = "0.13.1"
+serde = { version = "1.0.214", features = ["derive"] }
+serde_json = "1.0.132"
+thiserror = "1.0.63"
+tokio = { version = "1.40.0", features = ["full"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
+sha2 = "0.10.8"
+hex = "0.4.3"
+assert_cmd = "2.0.12"
+predicates = "3.1.2"
+tempfile = "3.10.1"
+once_cell = "1.19.0"
+seq-macro = "0.3.5"

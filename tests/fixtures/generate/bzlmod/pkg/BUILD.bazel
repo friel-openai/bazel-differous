@@ -1,0 +1,18 @@
+sh_library(
+    name = "core",
+    srcs = ["core.sh"],
+    deps = ["@depmod//:dep_lib"],
+)
+
+genrule(
+    name = "gen_cfg",
+    outs = ["cfg.txt"],
+    cmd = "echo cfg > $@",
+)
+
+sh_binary(
+    name = "tool",
+    srcs = ["tool.sh"],
+    deps = [":core"],
+    data = [":gen_cfg"],
+)

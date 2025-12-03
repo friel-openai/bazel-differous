@@ -1,0 +1,18 @@
+[package]
+name = "bazel-differrous-cli"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "bazel-differrous"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { workspace = true }
+bazel-differrous-core = { path = "../core" }
+clap = { workspace = true, features = ["derive"] }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
+serde_json = { workspace = true }

@@ -1,0 +1,16 @@
+/target
+**/target
+
+# Editors and tools
+.DS_Store
+.idea/
+.vscode/
+
+# Bazel artifacts
+bazel-*
+
+# Rust
+**/*.rs.bk
+
+# Nextest
+.nextest/

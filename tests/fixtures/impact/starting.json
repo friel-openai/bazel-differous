@@ -1,0 +1,7 @@
+{
+  "//app:bin": "Rule#bin_trans_v1~bin_direct",
+  "//app:unused": "Rule#unused_same~unused_direct",
+  "//pkg:data": "SourceFile#data_v1~data_direct",
+  "//pkg:helper": "SourceFile#helper_same~helper_direct",
+  "//pkg:lib": "Rule#lib_trans_v1~lib_direct_v1"
+}
